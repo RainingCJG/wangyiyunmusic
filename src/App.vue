@@ -1,0 +1,55 @@
+<template>
+  <div id="app">
+    <keep-alive><router-view/></keep-alive>
+    <Player></Player>
+  </div>
+</template>
+
+<script>
+import Player from './components/Player.vue'
+export default {
+  name: 'App',
+  components: {
+    Player
+  }
+}
+</script>
+
+<style>
+html,body,div,header,ul,li,img,figure,figcaption,a,p,button,article {
+  margin: 0;
+  padding: 0;
+}
+html,body {
+  height: 100%;
+}
+ul,li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+button {
+  border: none;
+  outline: none;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:after {
+  content: '';
+  display: block;
+  overflow: hidden;
+ clear: both;
+}
+#app {
+  height: 100%;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: .7rem;
+}
+</style>
