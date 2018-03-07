@@ -2,6 +2,10 @@
 
 > A Vue.js project
 
+## 用到的技术栈
+
+>vue-cli + vuex + axsios
+
 ## Build Setup
 
 ``` bash
