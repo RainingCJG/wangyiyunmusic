@@ -1,16 +1,22 @@
 <template>
   <div id="app">
     <keep-alive><router-view/></keep-alive>
-    <Player></Player>
+    <Player v-show="show"></Player>
   </div>
 </template>
 
 <script>
 import Player from './components/Player.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
   components: {
     Player
+  },
+  computed: {
+    ...mapGetters([
+      'show'
+    ])
   }
 }
 </script>

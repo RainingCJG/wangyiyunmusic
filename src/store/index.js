@@ -102,12 +102,12 @@ const store = new Vuex.Store({
       })
     },
     ISINLIST (state, audio) {
-      if (state.songList[audio.index].id === audio.item.id) {
-        state.currentIndex = audio.index + 1
+      if (state.songList[audio.index] && (state.songList[audio.index].id === audio.item.id)) {
         state.isinlist = true
       } else {
         state.isinlist = false
       }
+      state.currentIndex = audio.index + 1
     },
     PLAYNEXT (state) {
       state.currentIndex++

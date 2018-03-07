@@ -25,16 +25,24 @@ export default {
   methods: {
     show (callback) {
       this.isshow = true
-      let dom = document.querySelector('.playList')
-      if (dom) {
-        dom.style.position = 'fixed'
+      let popular = document.querySelector('.default-view')
+      let playList = document.querySelector('.playList')
+      if (playList) {
+        playList.style.position = 'fixed'
+      }
+      if (popular) {
+        popular.style.position = 'fixed'
       }
     },
     hide () {
       this.isshow = false
-      let dom = document.querySelector('.playList')
-      if (dom) {
-        dom.style.position = 'static'
+      let popular = document.querySelector('.default-view')
+      let playList = document.querySelector('.playList')
+      if (playList) {
+        playList.style.position = 'static'
+      }
+      if (popular) {
+        popular.style.position = 'static'
       }
     },
     play (index) {
@@ -79,6 +87,7 @@ export default {
     z-index: 999;
   }
   .mask {
+    position: fixed;
     width: 100%;
     height: 34%;
     background-color: rgba(0,0,0,.3);

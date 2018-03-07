@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="popular">
     <div class="loading-wrapper" v-if="isloading">
       <div class="loading"></div>
       <div class="loading-text">正在加载中</div>
@@ -87,6 +87,16 @@ export default {
 </script>
 
 <style scoped>
+  .popular {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    padding-top: 5.075rem;
+    box-sizing: border-box;
+    overflow-y: scroll;
+  }
   .banner {
     height: 7.4rem;
   }

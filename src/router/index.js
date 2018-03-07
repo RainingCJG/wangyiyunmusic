@@ -22,18 +22,22 @@ export default new Router({
       component: Index,
       children: [
         {
+          name: 'popular',
           path: 'popular',
           component: Popular
         },
         {
+          name: 'songList',
           path: 'songList',
           component: SongList
         },
         {
+          name: 'rankingList',
           path: 'rankingList',
           component: RankingList
         },
         {
+          name: 'hotSinger',
           path: 'hotSinger',
           component: HotSinger
         }

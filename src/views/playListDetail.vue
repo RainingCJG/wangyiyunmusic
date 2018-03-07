@@ -93,7 +93,7 @@ export default {
       audio.albumUrl = song.al.picUrl
       audio.name = song.name
       this.$store.commit('ISINLIST', {item: audio, index: index})
-      if ((this.list.length !== this.songList.length) || !this.isinlist) {
+      if ((this.list.length !== this.songList.length) || (!this.isinlist)) {
         this.addAll()
       }
       this.$store.dispatch('getSong', audio.id)
@@ -136,7 +136,9 @@ export default {
 
 <style scoped>
   .playList {
+    width: 100%;
     padding: .25rem;
+    box-sizing: border-box;
   }
   .cur-player {
     position: fixed;
