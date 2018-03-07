@@ -1,10 +1,15 @@
 <template>
+  <!-- 歌单列表组件 -->
   <div class="songList" id="songList">
     <div class="title">全部歌单</div>
-    <ul class="song-list"><router-link :to="{name: 'playListDetail', params:{id: item.id,name: item.name,coverImgUrl: item.coverImgUrl,creator: item.creator,count: item.playCount}}" class="song-item" v-for="(item, index) in playlist" :key="index" flag="li"><figure>
-      <div class="wrap"><img :src="item.coverImgUrl + '?param300y300'" alt="" class="img-res" lazy="loading"><a class="play-count">{{item.playCount | formatCount}}</a></div>
-      <figcaption class="song-content">{{item.name}}</figcaption>
-    </figure></router-link></ul>
+    <ul class="song-list">
+      <router-link :to="{name: 'playListDetail', params:{id: item.id,name: item.name,coverImgUrl: item.coverImgUrl,creator: item.creator,count: item.playCount}}" class="song-item" v-for="(item, index) in playlist" :key="index" flag="li">
+      <figure>
+        <div class="wrap"><img :src="item.coverImgUrl + '?param300y300'" alt="" class="img-res" lazy="loading"><a class="play-count">{{item.playCount | formatCount}}</a></div>
+        <figcaption class="song-content">{{item.name}}</figcaption>
+      </figure></router-link>
+    </ul>
+    <!-- 下拉加载动画 -->
     <div class="loadmore" v-if="loading"><i class="fa fa-spinner fa-spin"></i></div>
   </div>
 </template>
@@ -14,16 +19,18 @@ import api from '../api'
 export default {
   data () {
     return {
-      playlist: [],
-      offset: 0,
+      playlist: [], // 播放列表
+      offset: 0, // 请求歌曲的偏移量
       loading: false,
-      dom: ''
+      dom: '' // songList元素
     }
   },
   created () {
+    // 请求歌曲列表
     this.get()
   },
   mounted () {
+    // 监听onscroll事件实现下拉加载
     this.dom = document.getElementById('songList')
     this.dom.onscroll = () => {
       if (this.getScrollTop() + this.getWindowHeight() === this.getScrollHeight()) {
@@ -132,6 +139,7 @@ export default {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
+  /*下拉加载*/
   .loadmore {
     position: fixed;
     width: 2.5rem;

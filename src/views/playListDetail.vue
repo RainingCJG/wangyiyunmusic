@@ -1,20 +1,45 @@
 <template>
+  <!-- 播放列表详细组件 -->
   <div class="playList" :class="{view: songList.length > 0}">
+    <!-- 当前歌单 -->
     <div class="cur-player" :style="{'background': 'rgba(206, 61, 62, '+ opacity +')'}">
       <i class="back-button fa fa-arrow-left" solt="left" @click="back"></i>
       <span class="player-text">{{fname}}</span>
     </div>
+    <!-- 歌单信息 -->
     <div class="play-info clearfix">
-      <figure><div class="fl wrap-left"><img :src="coverImgUrl + '?param=300y300'" alt="" class="img-res"><span class="play-count">{{playcount | formatCount}}</span></div><figcaption><div class="fr wrap-right"><p class="top-text">{{name}}</p><p class="bottom-text"><img :src="coverImgUrl" alt="" class="author-img">{{creator.nickname}}</p></div></figcaption></figure>
-      <div class="bg-mask"></div>
+      <figure>
+        <div class="fl wrap-left">
+          <img :src="coverImgUrl + '?param=300y300'" alt="" class="img-res">
+          <span class="play-count">{{playcount | formatCount}}</span>
+        </div>
+        <figcaption>
+          <div class="fr wrap-right">
+            <p class="top-text">{{name}}</p>
+            <p class="bottom-text"><img :src="coverImgUrl" alt="" class="author-img">{{creator.nickname}}</p>
+          </div>
+        </figcaption>
+      </figure>
+      <!-- 遮罩层 -->
+      <div class="bg-mask">
+      </div>
       <div class="bg-player" :style="{backgroundImage: 'url(' + coverImgUrl + '?param=300y300)'}"></div>
     </div>
+    <!-- 播放全部 -->
     <div class="play-all">
       <div class="wrap-title"><i class="fa fa-plus play-all-icon" @click="playAll"></i>播放全部</div>
     </div>
+    <!-- 首次加载播放列表动画 -->
     <div class="list-isloading" v-if="isloading"><i class="fa fa-spinner fa-spin"></i></div>
+    <!-- 播放列表 -->
     <ul class="play-all-list" v-if="!isloading">
-      <li class="playList-item clearfix" v-for="(item, index) in list" @click="play(item, index)" :key="item.id"><span class="song-index fl" :class="{changeblue: audio.id == item.id}">{{index + 1}}</span><div class="song-info fl"><p class="song-name" :class="{changred: audio.id == item.id}">{{item.name}}</p><p class="singer-name">{{item.ar[0].name}}</p></div></li>
+      <li class="playList-item clearfix" v-for="(item, index) in list" @click="play(item, index)" :key="item.id">
+        <span class="song-index fl" :class="{changeblue: audio.id == item.id}">{{index + 1}}</span>
+        <div class="song-info fl">
+          <p class="song-name" :class="{changred: audio.id == item.id}">{{item.name}}</p>
+          <p class="singer-name">{{item.ar[0].name}}</p>
+        </div>
+      </li>
     </ul>
   </div>
 </template>
@@ -25,17 +50,17 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      opacity: 0,
-      id: 0,
-      coverImgUrl: '../assets/default_cover.png',
+      opacity: 0, // 根据滚动条的下拉高度动态改变透明度
+      id: 0, // 歌单id
+      coverImgUrl: '../assets/default_cover.png', // 封面预加载图片
       name: '歌单标题',
       fname: '歌单',
       playcount: 0,
       creator: {
-        'avatarUrl': '../assets/user-default.png',
+        'avatarUrl': '../assets/user-default.png', // 用户头像预加载图片
         'nickname': '昵称'
-      },
-      list: [],
+      }, // 歌单创建者信息
+      list: [], // 播放列表
       isloading: false
     }
   },
@@ -54,6 +79,7 @@ export default {
         vm.coverImgUrl = data.coverImgUrl
         vm.creator = data.creator
       }
+      // 监听onscroll事件
       window.onscroll = () => {
         let rat = window.pageYOffset / 150
         if (rat > 0.5) {
@@ -71,6 +97,7 @@ export default {
     next()
   },
   methods: {
+    // 获取播放歌曲列表
     get () {
       this.isloading = true
       this.$http.get(api.getPlayListDetail(this.$route.params.id)).then((res) => {
@@ -84,6 +111,7 @@ export default {
     back () {
       this.$router.go(-1)
     },
+    // 播放单曲
     play (song, index) {
       document.getElementById('audioPlay').pause()
       this.$store.commit('PAUSE')
@@ -92,17 +120,22 @@ export default {
       audio.singer = song.ar[0].name
       audio.albumUrl = song.al.picUrl
       audio.name = song.name
+      // 判断该单曲是否存在于播放列表组件的播放列表中
       this.$store.commit('ISINLIST', {item: audio, index: index})
+      // 播放歌曲不存在该歌单的播放列表
+      // 或者播放列表组件的播放列表长度和当前歌单的播放列表长度不等时
       if ((this.list.length !== this.songList.length) || (!this.isinlist)) {
         this.addAll()
       }
       this.$store.dispatch('getSong', audio.id)
       this.$store.commit('SHOWPLAYER', true)
     },
+    // 播放全部
     playAll () {
       this.addAll()
       this.play(this.list[0], 0)
     },
+    // 缓存播放列表
     addAll () {
       while (this.songList.length) {
         this.$store.commit('REMOVEAUDIO', 0)
@@ -120,6 +153,7 @@ export default {
     }
   },
   computed: {
+    // 注册vuex
     ...mapGetters(['songList', 'isinlist', 'audio'])
   },
   filters: {
@@ -135,11 +169,13 @@ export default {
 </script>
 
 <style scoped>
+  /*播放列表详细组件*/
   .playList {
     width: 100%;
     padding: .25rem;
     box-sizing: border-box;
   }
+  /*当前歌单*/
   .cur-player {
     position: fixed;
     left: 0;
@@ -170,6 +206,7 @@ export default {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
+  /*播放歌单信息*/
   .play-info {
     position: relative;
     width: 100%;
@@ -212,9 +249,8 @@ export default {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
-  .bottom-text {
+  .wrap-right .bottom-text {
     display: table-cell;
-    height: 2rem;
     padding-top: .6rem;
     vertical-align: middle;
   }
@@ -225,6 +261,7 @@ export default {
     margin-right: .25rem;
     vertical-align: middle;
   }
+  /*遮罩层*/
   .bg-mask {
     position: absolute;
     left: 0;
@@ -247,6 +284,7 @@ export default {
     -webkit-filter: blur(40px);
     z-index: 1;
   }
+  /*播放全部*/
   .wrap-title {
     height: 1.8rem;
     line-height: 1.8rem;
@@ -264,6 +302,7 @@ export default {
     border: .1rem solid #333;
     margin-right: .5rem;
   }
+  /*加载*/
   .list-isloading {
     position: absolute;
     top: 0;
@@ -275,6 +314,7 @@ export default {
     color: #f40;
     font-size: 1.5rem;
   }
+  /*歌曲列表*/
   .song-index {
     width: 20%;
     height: 3.6rem;
@@ -304,10 +344,6 @@ export default {
     font-size: .6rem;
     color: #777;
   }
-  /*.view {
-    width: 100%;
-    margin-bottom: 2.3rem;
-  }*/
   .playList-item .changeblue {
     color: #0000cd;
   }

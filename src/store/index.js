@@ -20,12 +20,12 @@ const store = new Vuex.Store({
     playing: false, // 是否正在播放
     loading: false, // 是否正在加载中
     songList: [], // 播放列表
-    currentTime: 0,
-    tmpCurrentTime: 0,
-    durationTime: 0,
-    bufferedTime: 0,
+    currentTime: 0, // 当前时间
+    tmpCurrentTime: 0, // 改变后的当前时间
+    durationTime: 0, // 持续时间
+    bufferedTime: 0, // 缓存时间
     change: false, // 判断是更改的时间还是播放的时间
-    show: false
+    show: false // 是否显示player组件
   },
   getters: {
     audio: state => state.audio,

@@ -1,6 +1,8 @@
 <template>
+  <!-- 播放详情组件 -->
   <div class="player-full">
     <div class="player-inner">
+      <!-- 顶部 -->
       <div class="player-bar">
         <div class="btn-back" @click="back"><i class="fa fa-arrow-left"></i></div>
         <div class="song-info">
@@ -9,6 +11,7 @@
         </div>
         <div class="share"><i class="fa fa-share-alt"></i></div>
       </div>
+      <!-- cd动画 -->
       <div class="cd-content">
         <div class="cd-bar" :class="{'cd-play': playing}"></div>
         <div class="cd-wrapper">
@@ -16,11 +19,13 @@
           <img class="cd-img" :src="audio.albumUrl + '?param500y500'" alt="" :class="{'cd-rotate': playing}">
         </div>
       </div>
+      <!-- 歌词 -->
       <div class="lyric">
         <article class="ly-inner" :style="{transform: 'translate3d(0px, ' + lyroffset +'px, 0px)'}">
           <p class="ly-info" v-for="(item, index) in lyrList" :key="index">{{item.txt}}</p>
         </article>
       </div>
+      <!-- 进度条 -->
       <div class="progress">
         <div class="pro" style="overflow:hidden">
           <div class="pg preload" :style="{'-webkit-transform': 'translateX(' + prBufferedTime + '%)'}"></div>
@@ -34,6 +39,7 @@
           <time class="total">{{durationTime | formatTime}}</time>
         </div>
       </div>
+      <!-- 控制按钮 -->
       <div class="control-btn">
         <button class="btn btn-mode"></button>
         <button class="btn btn-pre" @click="PLAYPREV"></button>
@@ -42,10 +48,12 @@
         <button class="btn btn-list" @click="showList"></button>
       </div>
     </div>
+    <!-- 遮罩层 -->
     <div class="mask">
       <div class="album-mask" :style="{'background-image': 'url(' + audio.albumUrl + '?param500y500)'}"></div>
       <div class="wrapper-mask"></div>
     </div>
+    <!-- 播放列表组件 -->
     <playList ref="playList" @back="goback"></playList>
   </div>
 </template>
@@ -57,10 +65,10 @@ import playList from '../components/playList'
 export default {
   data () {
     return {
-      lyrList: [],
-      lyric: '',
-      dom: '',
-      width: ''
+      lyrList: [], // 歌词数组
+      lyric: '', // 歌词
+      dom: '', // audio
+      width: '' // 屏幕宽度
     }
   },
   components: {
@@ -91,6 +99,7 @@ export default {
     goback () {
       this.$router.go(-1)
     },
+    // 加载歌词
     loadLrc (id) {
       this.lyrList = [{txt: '正在加载中...'}]
       if (!id) {
@@ -102,7 +111,7 @@ export default {
           this.lyrList = [{'txt': '(⊙０⊙) 暂无歌词'}]
         } else {
           this.lyric = res.data.lrc.lyric
-          this.getlrc()
+          this.getlrc() // 获取歌词
         }
       }, (res) => {
         this.lyrList = [{'txt': '加载歌词失败'}]
@@ -111,6 +120,7 @@ export default {
         this.lyrList = [{'txt': '(⊙０⊙) 暂无歌词'}]
       })
     },
+    // 获取歌词
     getlrc () {
       let lrc = this.lyric.split('\n')
       let lrcObj = []
@@ -151,6 +161,7 @@ export default {
       'PLAYPREV',
       'PLAYNEXT'
     ]),
+    // 切换播放状态
     togglePlay () {
       if (this.playing) {
         this.$store.commit('PAUSE')
@@ -219,6 +230,7 @@ export default {
   .player-inner {
     z-index: 2;
   }
+  /*遮罩层*/
   .player-inner,
   .mask,
   .album-mask,
@@ -242,6 +254,7 @@ export default {
     background-color: rgba(0,0,0,.8);
     z-index: 1;
   }
+  /*顶部*/
   .player-bar {
     width: 100%;
     height: 2.8rem;
@@ -279,6 +292,7 @@ export default {
     line-height: 2.8rem;
     padding: 0 1rem;
   }
+  /*cd*/
   .cd-content {
     position: relative;
     height: 14rem;
@@ -335,7 +349,7 @@ export default {
     -webkit-animation: rotating 10s  linear .3s infinite;
     animation: rotating 10s linear .3s infinite;
   }
-
+  /*歌词*/
   .lyric {
     position: relative;
     height: 58px;
@@ -358,6 +372,7 @@ export default {
     white-space: nowrap;
     overflow: hidden;
   }
+  /*进度条*/
   .progress {
     position: relative;
     height: 2rem;
@@ -414,6 +429,7 @@ export default {
     float: right;
     margin-right: 1rem;
   }
+  /*播放按钮*/
   .control-btn {
     text-align: center;
   }

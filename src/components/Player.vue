@@ -1,22 +1,28 @@
 <template>
   <footer>
     <div class="player-mini clearfix" v-show="show">
+      <!-- audio -->
       <audio id="audioPlay" :src="audio.location" @canplay="playSong" @error="loadError" @ended="next" @timeupdate="updateTime"></audio>
+      <!-- 封面 -->
       <div class="cover fl" @click="showDetail"><img v-show="!loading" class="img-cover" :src="audio.albumUrl + '?param=100y100'" alt=""></div>
+      <!-- 歌曲信息 -->
       <div class="song-info fl">
         <div class="song-name">{{audio.name}}</div>
         <div class="song-author">{{audio.singer}}</div>
       </div>
+      <!-- 控制按钮 -->
       <div class="control fr">
         <div class="control-btn play-list" @click="showList"></div>
         <div class="control-btn play" @click="toggleState" :class="{pause: !playing}"></div>
         <div class="control-btn play-next" @click="next"></div>
       </div>
+      <!-- 播放进度 -->
       <div class="play-progress">
         <div class="pro pro-load" :style="{'-webkit-transform': 'translateX(' + prBufferedTime +'%)'}"></div>
         <div class="pro pro-play" :style="{'-webkit-transform': 'translateX(' + prCurrentTime +'%)'}"></div>
       </div>
     </div>
+    <!-- 播放列表组件 -->
     <playList ref="playList"></playList>
   </footer>
 </template>

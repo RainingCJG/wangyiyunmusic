@@ -1,10 +1,14 @@
 <template>
+  <!-- 时下流行组件 -->
   <div class="popular">
+    <!-- 首次进入时的加载动画 -->
     <div class="loading-wrapper" v-if="isloading">
       <div class="loading"></div>
       <div class="loading-text">正在加载中</div>
     </div>
+    <!-- 内容 -->
     <div class="container" v-show="!isloading">
+      <!-- 轮播图 -->
       <div id="banner" class="banner">
         <swiper :options="swiperOption">
           <swiper-slide><img src="../assets/banner1.jpg" alt="" class="banner-item"></swiper-slide>
@@ -15,7 +19,9 @@
         </swiper>
       </div>
       <div class="wrapper">
+        <!-- 推荐歌单 -->
         <div class="rec-title song-list">推荐歌单<router-link class="more" :to="{path: '/index/songList'}">更多></router-link></div>
+        <!-- 推荐歌单列表 -->
         <ul>
           <router-link :to="{name: 'playListDetail', params: {id: item.id,name: item.name,coverImgUrl: item.coverImgUrl,creator: item.creator,count: item.playCount}}" flag="li" v-for="item in playlist" :key="item.id">
             <figure class="wrap">
@@ -24,11 +30,12 @@
             </figure>
           </router-link>
         </ul>
+        <!-- 推荐mv -->
         <div class="rec-title mv">推荐MV<a class="more">更多></a></div>
         <figure class="mv-wrap" v-for="item in mvlist" :key="item.id">
           <div><img :src="item.cover" alt="热门mv" class="img-res" lazy="loading"></div>
           <div class="mv-name">{{item.name}}</div>
-            <div class="mv-author">{{item.artistName}}</div>
+          <div class="mv-author">{{item.artistName}}</div>
         </figure>
       </div>
     </div>
@@ -50,8 +57,8 @@ export default {
           disableOnInteraction: false
         },
         loop: true
-      },
-      playlist: [],
+      }, // 轮播图组件用法
+      playlist: [], // 播放列表
       mvlist: []
     }
   },
@@ -59,6 +66,7 @@ export default {
     swiper, swiperSlide
   },
   created () {
+    // 获取推荐列表
     this.get()
   },
   methods: {
@@ -87,6 +95,7 @@ export default {
 </script>
 
 <style scoped>
+  /*popular组件*/
   .popular {
     position: absolute;
     left: 0;
@@ -97,6 +106,7 @@ export default {
     box-sizing: border-box;
     overflow-y: scroll;
   }
+  /*轮播图*/
   .banner {
     height: 7.4rem;
   }
@@ -106,9 +116,11 @@ export default {
     background: url(../assets/banner-item-load.png) no-repeat;
     background-size: cover;
   }
+  /*内容*/
   .wrapper {
     padding: 0 .25rem;
   }
+  /*推荐歌单*/
   .rec-title {
     height: 1.8rem;
     line-height: 1.8rem;
@@ -160,6 +172,7 @@ export default {
     -webkit-box-orient: vertical;
     color: #4a4a4a;
   }
+  /*推荐mv*/
   .mv {
     background: url(../assets/aee.png) no-repeat left center;
     background-size: 1rem 1rem;
@@ -185,6 +198,7 @@ export default {
     font-size: .6rem;
     color: #666;
   }
+  /*加载动画*/
   .loading {
     position: absolute;
     top: 0;

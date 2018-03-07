@@ -22,6 +22,7 @@ export default {
 </script>
 
 <style>
+/*浏览器重置*/
 html,body,div,header,ul,li,img,figure,figcaption,a,p,button,article {
   margin: 0;
   padding: 0;
