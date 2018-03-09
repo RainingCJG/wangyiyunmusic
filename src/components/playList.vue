@@ -46,6 +46,8 @@ export default {
       }
     },
     play (index) {
+      this.$store.commit('PAUSE')
+      document.getElementById('audioPlay').pause()
       this.$store.commit('SETAUDIOINDEX', index)
       if (!this.audio.location) {
         this.$store.dispatch('getSong', this.audio.id)

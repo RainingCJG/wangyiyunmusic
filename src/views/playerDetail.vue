@@ -175,6 +175,8 @@ export default {
       this.$refs.playList.show()
     },
     next () {
+      this.$store.commit('PAUSE')
+      this.dom.pause()
       this.$store.commit('PLAYNEXT')
       if (!this.audio.location) this.$store.dispatch('getSong', this.audio.id)
     }

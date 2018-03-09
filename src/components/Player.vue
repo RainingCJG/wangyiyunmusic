@@ -85,6 +85,7 @@ export default {
     },
     next () {
       this.$store.commit('PAUSE')
+      this.dom.pause()
       this.$store.commit('PLAYNEXT')
       if (!this.audio.location) this.$store.dispatch('getSong', this.audio.id)
     },
