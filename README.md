@@ -14,6 +14,10 @@
 
 > 完成歌曲的添加、加载、播放、切换等核心功能。
 
+## 运行gif图
+
+> ![image](https://github.com/RainingCJG/wangyiyunmusic/static/myapp.gif)
+
 ## 持续更新
 
 > 后续将持续更新新的功能
