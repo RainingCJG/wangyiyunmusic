@@ -55,15 +55,19 @@ export default {
     },
     remove (index) {
       this.$store.commit('REMOVEAUDIO', index)
-      if (!this.audio.location) this.$store.dispatch('getSong', this.audio.id)
+      if (!this.audio.location && this.songList.length > 0) this.$store.dispatch('getSong', this.audio.id)
       if (this.songList.length <= 0) {
-        this.isshow = false
+        this.hide()
         this.$emit('back')
       }
     },
     removeAll () {
       while (this.songList.length) {
-        this.remove(0)
+        this.$store.commit('REMOVEAUDIO', 0)
+        if (this.songList.length <= 0) {
+          this.hide()
+          this.$emit('back')
+        }
       }
     }
   },
