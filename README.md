@@ -16,7 +16,7 @@
 
 ## 运行gif图
 
-> ![image](https://github.com/RainingCJG/wangyiyunmusic/tree/master/static/myapp.gif)
+> ![image](https://github.com/RainingCJG/wangyiyunmusic/blob/master/static/myapp.gif)
 
 ## 持续更新
 
